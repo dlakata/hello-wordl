@@ -47,6 +47,10 @@ function randomTarget(wordLength: number): string {
   return candidate;
 }
 
+function randomHiddenColumn(wordLength: number): number {
+  return Math.floor(Math.random() * (wordLength+1));
+}
+
 function getChallengeUrl(target: string): string {
   return (
     window.location.origin +
@@ -97,6 +101,9 @@ function Game(props: GameProps) {
     for (let i = 1; i < gameNumber; i++) randomTarget(wordLength);
     return challenge || randomTarget(wordLength);
   });
+  const [hiddenColumn, setHiddenColumn] = useState<number>(() => {
+    return randomHiddenColumn(wordLength);
+  });
   const [hint, setHint] = useState<string>(
     challengeError
       ? `Invalid challenge string, playing random game.`
@@ -123,6 +130,7 @@ function Game(props: GameProps) {
     const newWordLength = limitLength(wordLength);
     setWordLength(newWordLength);
     setTarget(randomTarget(newWordLength));
+    setHiddenColumn(randomHiddenColumn(newWordLength));
     setHint("");
     setGuesses([]);
     setCurrentGuess("");
@@ -234,17 +242,20 @@ function Game(props: GameProps) {
       const cluedLetters = clue(guess, target);
       const lockedIn = i < guesses.length;
       if (lockedIn) {
-        for (const { clue, letter } of cluedLetters) {
-          if (clue === undefined) break;
+        cluedLetters.forEach(({ clue, letter }, index) => {
+          if (clue === undefined || index === hiddenColumn) {
+            return;
+          }
           const old = letterInfo.get(letter);
           if (old === undefined || clue > old) {
             letterInfo.set(letter, clue);
           }
-        }
+        });
       }
       return (
         <Row
           key={i}
+          hiddenColumn={hiddenColumn}
           wordLength={wordLength}
           rowState={
             lockedIn

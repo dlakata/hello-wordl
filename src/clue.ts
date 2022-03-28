@@ -34,7 +34,7 @@ export function clue(word: string, target: string): CluedLetter[] {
 
 export function clueClass(clue: Clue): string {
   if (clue === Clue.Absent) {
-    return "letter-absent";
+    return "";
   } else if (clue === Clue.Elsewhere) {
     return "letter-elsewhere";
   } else {

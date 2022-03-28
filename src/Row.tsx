@@ -11,6 +11,7 @@ interface RowProps {
   wordLength: number;
   cluedLetters: CluedLetter[];
   annotation?: string;
+  hiddenColumn: number;
 }
 
 export function Row(props: RowProps) {
@@ -21,7 +22,7 @@ export function Row(props: RowProps) {
     .slice(0, props.wordLength)
     .map(({ clue, letter }, i) => {
       let letterClass = "Row-letter";
-      if (isLockedIn && clue !== undefined) {
+      if (isLockedIn && clue !== undefined && i !== props.hiddenColumn) {
         letterClass += " " + clueClass(clue);
       }
       return (

@@ -21,6 +21,7 @@ export function About() {
       <hr />
       <Row
         rowState={RowState.LockedIn}
+        hiddenColumn={-1}
         wordLength={4}
         cluedLetters={[
           { clue: Clue.Absent, letter: "w" },
@@ -50,6 +51,7 @@ export function About() {
       </p>
       <Row
         rowState={RowState.LockedIn}
+        hiddenColumn={-1}
         wordLength={4}
         cluedLetters={[
           { clue: Clue.Correct, letter: "d" },
@@ -61,6 +63,7 @@ export function About() {
       />
       <Row
         rowState={RowState.LockedIn}
+        hiddenColumn={-1}
         wordLength={4}
         cluedLetters={[
           { clue: Clue.Correct, letter: "d" },
